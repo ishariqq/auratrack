@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="AuraTracker" />
+  <meta name="theme-color" content="#a855f7" />
+  <meta name="description" content="Трекер привычек с Aura Points" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <title>AURA TRACKER 💜</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-top">
+        <span class="app-logo">✨</span>
+        <h1 class="app-title">AURA TRACKER</h1>
+        <button class="settings-btn" id="settingsBtn">⚙️</button>
+      </div>
+
+      <!-- Aura Card -->
+      <div class="aura-card" id="auraCard">
+        <div class="aura-glow"></div>
+        <div class="aura-label">ТВОЯ АУРА</div>
+        <div class="aura-score" id="auraScore">0</div>
+        <div class="aura-level" id="auraLevel">🐣 Новичок</div>
+        <div class="aura-bar-container">
+          <div class="aura-bar" id="auraBar"></div>
+        </div>
+        <div class="aura-quote" id="auraQuote">Начни своё путешествие...</div>
+      </div>
+
+      <!-- Streak -->
+      <div class="streak-row">
+        <div class="streak-item">
+          <span class="streak-icon">🔥</span>
+          <span class="streak-num" id="streakCount">0</span>
+          <span class="streak-label">дней подряд</span>
+        </div>
+        <div class="streak-item">
+          <span class="streak-icon">💎</span>
+          <span class="streak-num" id="completedToday">0</span>
+          <span class="streak-label">выполнено сегодня</span>
+        </div>
+        <div class="streak-item">
+          <span class="streak-icon">⚡</span>
+          <span class="streak-num" id="totalHabits">0</span>
+          <span class="streak-label">всего привычек</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Date strip -->
+    <div class="date-strip">
+      <div class="date-strip-inner" id="dateStrip"></div>
+    </div>
+
+    <!-- Main content -->
+    <main class="main">
+      <!-- Habits section -->
+      <div class="section-header">
+        <h2 class="section-title">🎯 Сегодняшние задачи</h2>
+        <button class="add-btn" id="addHabitBtn">+ Добавить</button>
+      </div>
+
+      <div class="habits-list" id="habitsList">
+        <!-- habits rendered here -->
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="empty-emoji">🫠</div>
+        <p class="empty-text">Привычек нет, аура страдает...</p>
+        <p class="empty-sub">Нажми "+ Добавить" чтобы начать</p>
+      </div>
+
+      <!-- Log section -->
+      <div class="section-header" style="margin-top:24px;">
+        <h2 class="section-title">📜 Лог ауры</h2>
+        <button class="clear-log-btn" id="clearLogBtn">очистить</button>
+      </div>
+      <div class="log-list" id="logList"></div>
+    </main>
+  </div>
+
+  <!-- Add Habit Modal -->
+  <div class="modal-overlay" id="addModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>✨ Новая привычка</h3>
+        <button class="modal-close" id="closeModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="modal-label">Название</label>
+        <input type="text" class="modal-input" id="habitName" placeholder="Пить воду, спортзал..." maxlength="40"/>
+
+        <label class="modal-label">Эмодзи</label>
+        <div class="emoji-grid" id="emojiGrid"></div>
+        <input type="text" class="modal-input emoji-custom" id="customEmoji" placeholder="Или введи своё 🎨" maxlength="2"/>
+
+        <label class="modal-label">Аура поинты за выполнение</label>
+        <div class="points-row">
+          <button class="point-btn" data-val="50">+50 😊</button>
+          <button class="point-btn" data-val="100">+100 🔥</button>
+          <button class="point-btn active" data-val="150">+150 ⚡</button>
+          <button class="point-btn" data-val="300">+300 💎</button>
+          <button class="point-btn" data-val="-100">-100 💀</button>
+        </div>
+
+        <label class="modal-label">Штраф за пропуск</label>
+        <div class="points-row">
+          <button class="penalty-btn" data-val="0">Без штрафа 😌</button>
+          <button class="penalty-btn active" data-val="-50">-50 😬</button>
+          <button class="penalty-btn" data-val="-150">-150 😨</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-save" id="saveHabit">Создать привычку ✨</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Confetti canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <script src="app.js"></script>
+</body>
+</html>
